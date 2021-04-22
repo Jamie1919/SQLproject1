@@ -15,7 +15,7 @@ CONSTRAINT emp_key PRIMARY KEY (emp_id)
 select * from employees;
 drop table employees;
 
-SELECT emp.first_name, emp.last_name, dp.depart_name, dp.depart_city
+SELECT emp.first_name, emp.last_name, dp.depart_name
 FROM employees AS emp LEFT JOIN departments AS dp
 	ON emp.depart_id = dp.depart_id
 LEFT JOIN roles AS ro
@@ -25,11 +25,26 @@ LEFT JOIN salaries AS sa
 LEFT JOIN overtimes AS ov
     ON ov.overtime_id = ov.overtime_id;
 	
+SELECT employees.emp_id, 
+employees.first_name, 
+employees.last_name, 
+employees.address, 
+employees.email, 
+overtimes.overtime_pa, 
+departments.depart_name,  
+roles.role_name, 
+salaries.salary_pa
+FROM employees INNER JOIN departments ON employees.depart_id = departments.depart_id
+INNER JOIN roles ON employees.role_id = roles.role_id
+INNER JOIN overtimes ON employees.emp_id = overtimes.overtime_id
+INNER JOIN salaries ON employees.salary_id = salaries.salary_id;
+
 drop table employees
 
 CREATE TABLE Departments(
 depart_id bigserial CONSTRAINT depart_key PRIMARY KEY,
 depart_name varchar(20)
+depart_city varchar(20)
 );
 
 DROP TABLE Departments;
@@ -72,9 +87,9 @@ SELECT * FROM Employees;
 
 
 
-INSERT INTO Departments(depart_name)
-VALUES('IT'),
-	('Business'),
+INSERT INTO Departments(depart_name,depart_city)
+VALUES('IT','Liverpool'),
+	('Business coordination'),
 	('Marketing'),
 	('Administration'),
 	('Finance'),
